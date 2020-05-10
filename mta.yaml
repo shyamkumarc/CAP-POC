@@ -1,0 +1,123 @@
+ID: CAP_POC1
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: cap-poc1-approuter
+    type: approuter.nodejs
+    path: cap-poc1-approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: CAP_POC1_html5_repo_runtime
+      - name: portal_resources_CAP_POC1
+      - name: srv_api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv_api
+          url: '~{url}'
+      - name: uaa_CAP_POC1
+  - name: CAP_POC1_ui_deployer
+    type: com.sap.html5.application-content
+    path: CAP_POC1_ui_deployer
+    requires:
+      - name: CAP_POC1_html5_repo_host
+    build-parameters:
+      requires:
+        - name: ui1
+          artifacts:
+            - './*'
+          target-path: resources/ui1
+        - name: fe1
+          artifacts:
+            - './*'
+          target-path: resources/fe1
+  - name: CAP_POC1-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 512M
+    requires:
+      - name: CAP_POC1-db-hdi-container
+  - name: CAP_POC1-srv
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 512M
+      disk-quota: 512M
+    provides:
+      - name: srv_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: CAP_POC1-db-hdi-container
+      - name: uaa_CAP_POC1
+  - name: ui1
+    type: html5
+    path: ui1
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+  - name: flp1
+    type: com.sap.portal.content
+    path: flp1
+    parameters:
+      stack: cflinuxfs3
+      memory: 128M
+      buildpack: 'https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.6.39/nodejs-buildpack-cflinuxfs3-v1.6.39.zip'
+    requires:
+      - name: portal_resources_CAP_POC1
+      - name: uaa_CAP_POC1
+      - name: CAP_POC1_html5_repo_host
+      - name: CAP_POC1_ui_deployer
+  - name: fe1
+    type: html5
+    path: fe1
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+resources:
+  - name: CAP_POC1_html5_repo_runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: CAP_POC1_html5_repo_host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: CAP_POC1-db-hdi-container
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: '${service-name}'
+  - name: uaa_CAP_POC1
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: application
+      service: xsuaa
+      config:
+        xsappname: 'CAP_POC1-${space}'
+        tenant-mode: dedicated
+  - name: dest_CAP_POC1
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
+  - name: portal_resources_CAP_POC1
+    parameters:
+      service-plan: standard
+      service: portal
+    type: org.cloudfoundry.managed-service

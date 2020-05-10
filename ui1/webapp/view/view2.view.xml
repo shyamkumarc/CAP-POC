@@ -1,0 +1,17 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="ui1.ui1.controller.view2"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar">
+	<App>
+		<pages>
+			<Page title="Title">
+				<content>
+					<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="Products" persistencyKey="SmartFilter_Explored"></smartFilterBar:SmartFilterBar>
+					
+					<smartTable:SmartTable entitySet="Products" tableType="ResponsiveTable" useExportToExcel="true" useVariantManagement="false"
+						useTablePersonalisation="true" header="Line Items" showRowCount="true" persistencyKey="SmartTableAnalytical_Explored"
+						enableAutoBinding="true" demandPopin="true" class="sapUiResponsiveContentPadding"/>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

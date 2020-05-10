@@ -1,0 +1,47 @@
+<mvc:View controllerName="ui1.ui1.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}">
+					<content>
+							<Table id="idProductsTable" inset="false" items="{/Books}">
+							<headerToolbar>
+								<OverflowToolbar>
+									<content>
+										<Button text="save" press="onPress" enabled="{viewModel>/save}"/>
+										<Button text="reset" press="onPressReset"  enabled="{viewModel>/reset}"/>
+										<Button text="Smart Table" press="onView2"/>
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em">
+									<Text text="ID"/>
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true">
+									<Text text="title"/>
+								</Column>
+								<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+									<Text text="stock"/>
+								</Column>
+								<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+									<Text text="author_ID"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Text text="{ID}"/>
+										<Input valueState="None" value="{title}" liveChange="onInputChange"/>
+										<Text text="{stock}"/>
+										<Text text="{author_ID}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
