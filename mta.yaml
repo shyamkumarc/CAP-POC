@@ -98,6 +98,8 @@ resources:
     parameters:
       service-plan: app-host
       service: html5-apps-repo
+      config:
+       sizeLimit: 4
     type: org.cloudfoundry.managed-service
   - name: CAP_POC1-db-hdi-container
     type: com.sap.xs.hdi-container
