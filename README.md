@@ -5,14 +5,13 @@ CAP POC - covers DB, Nodejs service ,HTML5 app router, UI deployer, XSUAA, odata
 CAP services expose OData on the  OData v4 protocol .FIori elements work with odata v2 only , and hence we might need to consume odata in V2 protocol -  the OData V2 proxy adapter library could be used to accomplish this. But There were some issues with this library which caused it to give internal server error whenever the V2 OData was queried for.I was able to understand that this issue happens because the index.js file that was used to proxy v4 to v2 was making use of db references. Looks like Db module won't be available for CF in runtime and it seems we have to replace db reference with the generated csn file present in srv folder to get past this issue. 
  
  Youll see this being done in <B> srv/index.js </B>
- 
- <I>  await cds
+ ```
+  await cds
     .serve('all')
     .from(csn)
     .in(app)
-</I> 
 
-<I> 
+
   app.use(
     proxy({
       // app
@@ -22,10 +21,9 @@ CAP services expose OData on the  OData v4 protocol .FIori elements work with od
       port: port
     })
   )
-  </I> 
-  
+```  
   Do note that the odata V2 adapter proxy library has to be added in node package.Json file and also the start script has to be adjusted to execute index.js file .
-  
+  ```
   	"dependencies": {
 		"@sap/cds": "^3.34.1",
 		"express": "^4.17.1",
@@ -40,7 +38,7 @@ CAP services expose OData on the  OData v4 protocol .FIori elements work with od
 		"postinstall": "npm dedupe && node .build.js",
 		"startv4": "node ./node_modules/@sap/cds/bin/cds.js serve gen/csn.json",
 		"start": "node index.js",
-
+```
 References:
 https://github.com/gregorwolf/SAP-NPM-API-collection/tree/master/apis/cds-odata-v2-adapter-proxy 
 https://github.com/sapmentors/cap-community/issues/68
@@ -58,6 +56,7 @@ Reference: https://github.com/SAP-samples/cloud-cap-samples/tree/openSAP-week3-u
 
 Both for the Fiori elements, and the freestyle UI5 app to work , you have to adjust the XS-app JSON file so that it points to the
 destination mentioned in the HTMLapprouter destinations for SRV folder services in MTA file
+```
 modules:
   - name: cap-poc1-approuter
     type: approuter.nodejs
@@ -74,10 +73,10 @@ modules:
           forwardAuthToken: true
           name: srv_api
           url: '~{url}'.
-	  
+```	  
 	  
 In Xs-app.json:
-
+```
  "routes": [
     {
       "source": "/srv_api/(.*)$",
@@ -86,6 +85,44 @@ In Xs-app.json:
       "destination": "srv_api",
       "csrfProtection": false
     },
+```
 
+## fixing FLP bug:
 
+I was using WebIDE full stack for my development and the template for creating a CAP project is using the "SAP cloud platform business application" project. I noticed some flaws in this template which were causing the issue.
 
+The SCP business application template doesn't seem to be defining the scope uaa.user in the XS-security file when a project is created .2.The XS-security file doesn't get linked with the XSUAA resource when a project gets created.
+I went ahead and fixed both the above points and now I'm able to get the FLP instance working.
+I'm not sure if the above 2 were conscious decisions based on some thought , or just a miss from the relevant team's end .
+
+Fixes to be made:
+
+XS-security file:
+Add a scopes section , after the description section in the XS security file as follows.
+```
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+   "scopes":[
+	{
+		"name": "uaa.user",
+		"description": "UAA"
+	}],
+```
+MTA file:
+
+Add the path to XS-security file on XSUAA resource in your MTA file
+resources:
+```
+ -name: uaa_CAP_POC1
+     type: org.cloudfoundry.managed-service
+     parameters:
+       path: ./xs-security.json
+       service-plan: application
+       
+```       
+
+Apart from that , if your deployment fails and the log shows error : "Upload application content failed { CODE: '1001' } validation error: Error while parsing request; Error: maximum file length exceeded" , you may refer to the following note regarding fixing the HTML application repo host memory :
+
+https://launchpad.support.sap.com/#/notes/0002764058
+
+https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/b8343d9d8b984d73adbae5fe657f13db.html
