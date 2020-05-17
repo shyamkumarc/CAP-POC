@@ -108,6 +108,7 @@ resources:
   - name: uaa_CAP_POC1
     type: org.cloudfoundry.managed-service
     parameters:
+      path: ./xs-security.json
       service-plan: application
       service: xsuaa
       config:
