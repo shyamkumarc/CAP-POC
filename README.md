@@ -1,6 +1,8 @@
 # CAP-POC2
 CAP POC - covers DB, Nodejs service ,HTML5 app router, UI deployer, XSUAA, odata v2 adapter, Fiori elements app, smart table and Freestype UI5 app & FLP
 
+Stat here : Simple yet exhaustive information on CAP development in SCP.Some part are not relevant for our project, still it gives a good overview of the whole setup : https://blogs.sap.com/2018/12/11/programming-applications-in-sap-cloud-platform/
+
 ## Setting up Odata V2 adapter:
 CAP services expose OData on the  OData v4 protocol .FIori elements work with odata v2 only , and hence we might need to consume odata in V2 protocol -  the OData V2 proxy adapter library could be used to accomplish this. But There were some issues with this library which caused it to give internal server error whenever the V2 OData was queried for.I was able to understand that this issue happens because the index.js file that was used to proxy v4 to v2 was making use of db references. Looks like Db module won't be available for CF in runtime and it seems we have to replace db reference with the generated csn file present in srv folder to get past this issue. 
  
