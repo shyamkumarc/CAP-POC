@@ -18,7 +18,7 @@ modules:
         properties:
           forwardAuthToken: true
           name: srv_api
-          url: 'https://cf750b83trial-dev-cap-poc1-srv.cfapps.eu10.hana.ondemand.com'
+          url: '~{url}'
       - name: uaa_CAP_POC1
   - name: CAP_POC1_ui_deployer
     type: com.sap.html5.application-content
@@ -52,7 +52,7 @@ modules:
     provides:
       - name: srv_api
         properties:
-          url: 'https://cf750b83trial-dev-cap-poc1-srv.cfapps.eu10.hana.ondemand.com'
+          url: '${default-url}'
     requires:
       - name: CAP_POC1-db-hdi-container
       - name: uaa_CAP_POC1
