@@ -132,3 +132,8 @@ Apart from that , if your deployment fails and the log shows error : "Upload app
 https://launchpad.support.sap.com/#/notes/0002764058
 
 https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/b8343d9d8b984d73adbae5fe657f13db.html
+
+## fixing the data connectivity issue in FLP
+
+
+## Launchpad roles and authorizations
