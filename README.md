@@ -135,5 +135,15 @@ https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/b8343d9
 
 ## Fixing the data connectivity issue in FLP:
 
+By default , when apps are added to the FLP and deployed , you'll notice that they are not connecting to the services anymore .
+This is because the routes defined to the backend services in each apps xs-app.json would get picked up once they are accesssed via FLP.
+
+To fix this issue, i am adding the same routing configration to the XS-app.json fiel in the app router module. This will make the 
+service end points accessible to UI5 apps using the same relative path that it was using while during development.
+
 
 ## Launchpad roles and authorizations:
+
+The roles and authoriations concept in CF FLP works different from  the catalog way in NEO. Here is a blog that explains in detail the steps .https://blogs.sap.com/2020/03/12/configuring-roles-sap-fiori-launchpad-cloudfoundry/ 
+
+DO note that Only once the role-templates are degined in respective apps/ xs-security.json etc and ONCE THE PROJECT IS DEPLOYED TO CF, woudl these roles start showing up in the Roles section of SCP CF cockpit roles/roles collections section.
