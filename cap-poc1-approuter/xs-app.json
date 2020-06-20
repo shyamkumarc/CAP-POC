@@ -1,5 +1,11 @@
 {
 	"authenticationMethod": "none",
-	"routes": [],
+	"routes": [
+		{
+      "source": "/srv_api/(.*)$",
+      "target": "$1",
+      "destination": "srv_api"
+    }
+		],
 	"welcomeFile": "/cp.portal"
 }

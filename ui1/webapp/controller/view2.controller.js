@@ -11,7 +11,7 @@ sap.ui.define([
 		 * @memberOf ui1.ui1.view.view2
 		 */
 		onInit: function () {
-				var oModel = new sap.ui.model.odata.v2.ODataModel("srv_api/v2/catalog");
+				var oModel = new sap.ui.model.odata.v2.ODataModel("/srv_api/v2/catalog");
 			
 			this.getView().setModel(oModel);
 

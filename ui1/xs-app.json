@@ -14,7 +14,15 @@
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+            "scope": {
+      	"GET": ["$XSAPPNAME.applications_administrator"],
+      	"PATCH": ["$XSAPPNAME.applications_administrator"],
+      	"POST": ["$XSAPPNAME.applications_administrator"],
+      	"PUT": ["$XSAPPNAME.applications_administrator"],
+      	"DELETE": ["$XSAPPNAME.applications_administrator"],
+      	"default": ["$XSAPPNAME.applications_administrator"]
+      }
     }
   ]
 }

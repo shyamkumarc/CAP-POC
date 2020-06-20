@@ -16,7 +16,7 @@ sap.ui.define([
 				/*
 				Root URL of the service to request data from.
 				*/
-				serviceUrl: "srv_api/catalog/",
+				serviceUrl: "/srv_api/catalog/",
 				/*
 				optional. Group ID that is used for update requests. If no update group ID is specified, mParameters.groupId is used.:
 				updateGroupId : "$direct"

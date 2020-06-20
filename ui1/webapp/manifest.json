@@ -71,11 +71,9 @@
 			}
 		},
 		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
+			"css": [{
+				"uri": "css/style.css"
+			}]
 		},
 		"routing": {
 			"config": {
@@ -87,22 +85,19 @@
 				"controlId": "app",
 				"clearControlAggregation": false
 			},
-			"routes": [
-				{
-					"name": "RouteView1",
-					"pattern": "RouteView1",
-					"target": [
-						"TargetView1"
-					]
-				},
-					{
-					"name": "RouteView2",
-					"pattern": "RouteView2",
-					"target": [
-						"view2"
-					]
-				}
-			],
+			"routes": [{
+				"name": "RouteView1",
+				"pattern": "RouteView1",
+				"target": [
+					"TargetView1"
+				]
+			}, {
+				"name": "RouteView2",
+				"pattern": "RouteView2",
+				"target": [
+					"view2"
+				]
+			}],
 			"targets": {
 				"TargetView1": {
 					"viewType": "XML",
@@ -117,5 +112,8 @@
 				}
 			}
 		}
+	},
+	"sap.platform.cf": {
+		"oAuthScopes": ["$XSAPPNAME.applications_administrator"]
 	}
 }

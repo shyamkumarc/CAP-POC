@@ -1,19 +1,34 @@
 {
-  "xsappname": "CAP_POC1",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
-   "scopes":[
-	{
+	"xsappname": "CAP_POC1",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application",
+	"scopes": [{
 		"name": "uaa.user",
 		"description": "UAA"
+	}, {
+		"name": "$XSAPPNAME.solution_lead",
+		"description": "UAA solution lead"
+	}, {
+		"name": "$XSAPPNAME.applications_administrator",
+		"description": "UAA applications administrator"
 	}],
-  "role-templates": [
-    {
-      "name": "Token_Exchange",
-      "description": "UAA",
-      "scope-references": [
-        "uaa.user"
-      ]
-    }
-  ]
+	"role-templates": [{
+		"name": "Token_Exchange",
+		"description": "UAA",
+		"scope-references": [
+			"uaa.user"
+		]
+	}, {
+		"name": "SSF_SOLUTION_LEAD",
+		"description": "UAA SSF_SOLUTION_LEAD",
+		"scope-references": [
+			"$XSAPPNAME.solution_lead"
+		]
+	}, {
+		"name": "SSF_APPLICATIONS_ADMINISTRATOR",
+		"description": "UAA SSF_APPLICATIONS_ADMINISTRATOR",
+		"scope-references": [
+			"$XSAPPNAME.applications_administrator"
+		]
+	}]
 }
